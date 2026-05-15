@@ -1,58 +1,35 @@
-# Tên Dự Án
+# IntegratedDSA
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-
-Mô tả ngắn gọn về dự án — làm gì, giải quyết vấn đề gì.
-
-## Yêu cầu hệ thống
-
-- Python >= 3.10
-- pip hoặc conda
-
-## Cài đặt
+This project integrate some data structures and algorithms into an application to visualize the ways it works
+## Setting
 
 ```bash
 # Clone repository
-git clone https://github.com/username/project.git
-cd project
+https://github.com/Tuan-Anh-2607/IntegratedDSA.git
 
-# Tạo môi trường ảo (khuyến nghị)
-python -m venv venv
-source venv/bin/activate      # Linux / macOS
-venv\Scripts\activate         # Windows
-
-# Cài đặt thư viện
-pip install -r requirements.txt
 ```
 
-## Cấu hình
+## Run application
 
 ```bash
-cp .env.example .env
-# Chỉnh sửa .env với các giá trị thực tế
+g++ main.cpp UI.cpp -o program
+.\program
 ```
-
-## Chạy ứng dụng
-
-```bash
-python main.py
-```
-
-## Chạy kiểm thử
-
-```bash
-pytest tests/
-```
-
-## Cấu trúc thư mục
+## Folder structure
 
 ```
 project/
-├── main.py
-├── requirements.txt
-├── .env.example
-├── tests/
-└── src/
+├── app/
+|   |-- main.cpp
+|   └── UI.cpp
+├── lib/
+|   |-- Algorithms.hpp
+|   |-- AVL.hpp
+|   |-- BST.hpp
+|   |-- HashTable.hpp
+|   |-- LinkedList.hpp
+|   |-- PriorityQueue.hpp
+|   |-- Queue.hpp
+|   |-- Stack.hpp
+└── README.md
 ```
-|_
