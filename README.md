@@ -20,16 +20,16 @@ g++ main.cpp UI.cpp -o program
 ```
 project/
 ├── app/
-|   |-- main.cpp
+|   ├── main.cpp
 |   └── UI.cpp
 ├── lib/
-|   |-- Algorithms.hpp
-|   |-- AVL.hpp
-|   |-- BST.hpp
-|   |-- HashTable.hpp
-|   |-- LinkedList.hpp
-|   |-- PriorityQueue.hpp
-|   |-- Queue.hpp
-|   |-- Stack.hpp
+|   ├── Algorithms.hpp
+|   ├── AVL.hpp
+|   ├── BST.hpp
+|   ├── HashTable.hpp
+|   ├── LinkedList.hpp
+|   ├── PriorityQueue.hpp
+|   ├── Queue.hpp
+|   ├── Stack.hpp
 └── README.md
 ```
