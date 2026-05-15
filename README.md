@@ -5,7 +5,7 @@ This project integrate some data structures and algorithms into an application t
 
 ```bash
 # Clone repository
-https://github.com/Tuan-Anh-2607/IntegratedDSA.git
+https://github.com/tuanh2607/IntegratedDSA.git
 
 ```
 
@@ -30,6 +30,6 @@ project/
 |   ├── LinkedList.hpp
 |   ├── PriorityQueue.hpp
 |   ├── Queue.hpp
-|   ├── Stack.hpp
+|   └── Stack.hpp
 └── README.md
 ```
