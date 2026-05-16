@@ -1,5 +1,6 @@
 template<typename T>
-struct AVL {
+class AVL {
+private:
     struct Node {
         T data;
         int h;
@@ -9,6 +10,7 @@ struct AVL {
     };
     Node* root;
     AVL() : root(nullptr) {}
+public:
     static int height (Node* root) {
         return root ? root->h : 0;
     }

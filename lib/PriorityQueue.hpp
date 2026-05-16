@@ -21,8 +21,10 @@ void heapify(vector<T> &a, int n, int i) {
     }
 }
 template<typename T>
-struct priorityQueue {
+class priorityQueue {
+private:
     vector<T> heap;
+public:
     void insert(T val) {
         heap.push_back(val);
         int i = heap.size() - 1;

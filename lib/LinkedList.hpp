@@ -1,6 +1,7 @@
 using namespace std;
 template<typename T>
-struct LinkedList {
+class LinkedList {
+private:
     struct Node {
         T data;
         Node* next;
@@ -10,6 +11,7 @@ struct LinkedList {
     Node* tail;
     int _size;
     LinkedList() : head(nullptr), tail(nullptr), _size(0) {}
+public:
     void clear() {
         if(!head) return;
         while(head) {

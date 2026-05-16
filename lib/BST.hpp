@@ -1,5 +1,6 @@
 template<typename T>
-struct BST {
+class BST {
+private:
     struct Node{
         T data;
         Node* l;
@@ -8,6 +9,7 @@ struct BST {
     };
     BST() : root(nullptr) {}
     Node* root;
+public:
     void insert(T val) {
         Node* tmp = new Node(val);
         if(!root) {
