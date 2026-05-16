@@ -1,7 +1,7 @@
 #include <vector>
 using namespace std;
 template<typename T>
-void swap(T &a, T &b) {
+void Swap(T &a, T &b) {
     T tmp = a;
     a = b;
     b = tmp;
@@ -11,7 +11,7 @@ void bubbleSort(vector<T> &a, int n){
     for(int i = 0; i < n - 1; i++){
         for(int j = 0; j < n - i - 1; j++){
             if(a[j] > a[j + 1]){
-                swap(a[j], a[j + 1]);
+                Swap(a[j], a[j + 1]);
             }
         }
     }
@@ -23,7 +23,7 @@ void selectionSort(vector<T> &a, int n){
         for(int j = i + 1; j < n; j++){
             if(a[j] < a[min_index]) min_index = j;
         }
-        swap(a[i], a[min_index]);
+        Swap(a[i], a[min_index]);
     }
 }
 template<typename T>
@@ -31,7 +31,7 @@ void insertionSort (vector<T> &a, int n) {
     for(int i = 0; i < n; i++) {
         int j = i;
         while(j > 0 && a[j] < a[j - 1]) {
-            swap(a[j], a[j - 1]);
+            Swap(a[j], a[j - 1]);
             j--;
         }
     }
@@ -46,7 +46,7 @@ void heapify (vector<T> &a, int n, int i){
     if(r < n && a[largest] < a[r]) largest = r;
     
     if(largest != i){
-        swap(a[i], a[largest]);
+        Swap(a[i], a[largest]);
         heapify(a, n, largest);
     }
 }
@@ -56,7 +56,7 @@ void heapSort(vector<T> &a, int n){
         heapify(a, n, i);
     }
     for(int i = n - 1; i >= 0; i--){
-        swap(a[0], a[i]);
+        Swap(a[0], a[i]);
         heapify(a, i, 0);
     }
 }
@@ -74,7 +74,7 @@ int partition(vector<T> &a, int l, int r) {
             j--;
         } while (a[j] > pivot);
         if(i < j) {
-            swap(a[i], a[j]);
+            Swap(a[i], a[j]);
         } else return j;
     }
 }
@@ -116,4 +116,3 @@ void mergeSort(vector<T> &a,int l, int r){
         merge(a, l, m, r);
     } 
 }
-// xong
