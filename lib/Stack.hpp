@@ -1,7 +1,9 @@
 #include "LinkedList.hpp"
 template<typename T>
-struct Stack {
+class Stack {
+private:
     LinkedList<T> stack;
+public:
     bool empty() {
         return stack.size() == 0;
     }

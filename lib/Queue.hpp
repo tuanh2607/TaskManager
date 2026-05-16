@@ -1,7 +1,9 @@
 #include "LinkedList.hpp"
 template<typename T>
-struct Queue {
+class Queue {
+private:
     LinkedList<T> queue;
+public:
     int size() {
         return queue.size();
     }
