@@ -1,6 +1,6 @@
 # IntegratedDSA
 
-This project integrate some data structures and algorithms into an application to visualize the ways it works
+This project integrates data structures and algorithms into an application that visualizes how they work.
 ## Setting
 
 ```bash
