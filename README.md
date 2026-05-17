@@ -12,8 +12,13 @@ https://github.com/tuanh2607/IntegratedDSA.git
 ## Run application
 How to run program step by step
 ```bash
+# step 1 : Clone repository
 git clone https://github.com/tuanh2607/IntegratedDSA.git
+# step 2 : Change direction
+cd 25120283
+# step 3 : Built program
 g++ main.cpp UI.cpp -o program
+# step 4 : Run program
 .\program
 ```
 ## Folder structure
@@ -32,5 +37,6 @@ project/
 |   ├── PriorityQueue.hpp
 |   ├── Queue.hpp
 |   └── Stack.hpp
+├── Makefile
 └── README.md
 ```
