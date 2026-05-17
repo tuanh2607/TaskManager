@@ -15,7 +15,7 @@ How to run program step by step
 # step 1 : Clone repository
 git clone https://github.com/tuanh2607/IntegratedDSA.git
 # step 2 : Change direction
-cd 25120283
+cd app
 # step 3 : Built program
 g++ main.cpp UI.cpp -o program
 # step 4 : Run program
