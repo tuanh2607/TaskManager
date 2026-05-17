@@ -116,3 +116,15 @@ void mergeSort(vector<T> &a,int l, int r){
         merge(a, l, m, r);
     } 
 }
+template<typename T>
+T* binarySearch(vector<T> &a, T val) {
+    int l = 0; 
+    int r = a.size() - 1;
+    while(l <= r) {
+        int m = (l + r)/2;
+        if(a[m] == val) return &a[m];
+        else if(a[m] > val) r = m - 1;
+        else l = m + 1;
+    }
+    return nullptr;
+}
