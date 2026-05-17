@@ -10,8 +10,8 @@ private:
     Node* head;
     Node* tail;
     int _size;
-    LinkedList() : head(nullptr), tail(nullptr), _size(0) {}
 public:
+    LinkedList() : head(nullptr), tail(nullptr), _size(0) {}
     void clear() {
         if(!head) return;
         while(head) {

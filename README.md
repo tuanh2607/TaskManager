@@ -10,8 +10,9 @@ https://github.com/tuanh2607/IntegratedDSA.git
 ```
 
 ## Run application
-
+How to run program step by step
 ```bash
+git clone https://github.com/tuanh2607/IntegratedDSA.git
 g++ main.cpp UI.cpp -o program
 .\program
 ```

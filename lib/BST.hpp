@@ -7,9 +7,9 @@ private:
         Node* r;
         Node(T val) : data(val), l(nullptr), r(nullptr) {}
     };
-    BST() : root(nullptr) {}
     Node* root;
 public:
+    BST() : root(nullptr) {}
     void insert(T val) {
         Node* tmp = new Node(val);
         if(!root) {
