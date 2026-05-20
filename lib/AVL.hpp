@@ -15,13 +15,13 @@ private:
     };
     Node* root;
 
-    static int height (Node* root) {
+    int height (Node* root) {
         return root ? root->h : 0;
     }
-    static void UpdateHeight (Node* root) {
+    void UpdateHeight (Node* root) {
         root->h = 1 + Max(height(root->l), height(root->r));
     }
-    static Node* RotateLeft(Node* root) {
+    Node* RotateLeft(Node* root) {
         Node* rChild = root->r;
         root->r = rChild->l;
         rChild->l = root;
@@ -29,7 +29,7 @@ private:
         UpdateHeight(rChild);
         return rChild;
     }
-    static Node* RotateRight(Node* root) {
+    Node* RotateRight(Node* root) {
         Node* lChild = root->l;
         root->l = lChild->r;
         lChild->r = root;
@@ -37,15 +37,15 @@ private:
         UpdateHeight(lChild);
         return lChild;
     }
-    static Node* RotateLeftRight(Node* root) {
+    Node* RotateLeftRight(Node* root) {
         root->l = RotateLeft(root->l);
         return RotateRight(root);
     }
-    static Node* RotateRightLeft(Node* root) {
+    Node* RotateRightLeft(Node* root) {
         root->r = RotateRight(root->r);
         return RotateLeft(root);
     }
-    static Node* insert(Node* root, T val) {
+    Node* insert(Node* root, T val) {
         if(!root) return new Node(val);
         if(root->data < val) root->r = insert(root->r, val);
         else if(root->data > val) root->l = insert(root->l, val);
@@ -66,7 +66,7 @@ private:
         }
         return root;
     }
-    static Node* remove (Node* root, T val) {
+    Node* remove (Node* root, T val) {
         if(!root) return nullptr;
         if(root->data < val) root->r = remove(root->r, val);
         else if(root->data > val) root->l = remove(root->l, val);
@@ -107,19 +107,19 @@ private:
         }
         return root;
     }
-    static void NLR(Node* node) {
+    void NLR(Node* node) {
         if(!node) return;
         cout << node->data << " ";
         NLR(node->l);
         NLR(node->r);
     } 
-    static void LNR(Node* node) {
+    void LNR(Node* node) {
         if(!node) return;
         LNR(node->l);
         cout << node->data << " ";
         LNR(node->r);
     }
-    static void LRN(Node* node) {
+    void LRN(Node* node) {
         if(!node) return;
         LRN(node->l);
         LRN(node->r);
@@ -130,6 +130,12 @@ private:
         deleteALL(root->l);
         deleteALL(root->r);
         delete root;
+    }
+    void toVector(Node* root, vector<T> &a) {
+        if(!root) return;
+        toVector(root->l, a);
+        toVector(root->r, a);
+        a.push_back(root);
     }
 public:
     AVL() : root(nullptr) {}
@@ -177,5 +183,10 @@ public:
             else tmp = tmp->r;
         }
         return nullptr;
+    }
+    vector<T> toVector() {
+        vector<T> res;
+        toVector(root, res);
+        return res;
     }
 };

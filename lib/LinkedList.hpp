@@ -12,6 +12,13 @@ private:
     int _size;
 public:
     LinkedList() : head(nullptr), tail(nullptr), _size(0) {}
+    ~LinkedList() {
+        while(head){
+            Node* tmp = head;
+            head = head->next;
+            delete tmp;
+        }
+    }
     void clear() {
         if(!head) return;
         while(head) {

@@ -2,7 +2,7 @@ all:
 	g++ app/main.cpp -o main
 
 run: all
-	./main
+	./main app/data.txt
 
 clean:
 	rm -f main

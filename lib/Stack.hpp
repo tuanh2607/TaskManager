@@ -14,8 +14,8 @@ public:
         if(stack.empty()) return;
         stack.removeAt(0);
     }
-    T top() {
-        return stack.head ? stack.head->data : T{};
+    T* top() {
+        return stack.head ? &stack.head->data : nullptr;
     }
     int size() {
         return stack.size();

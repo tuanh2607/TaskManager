@@ -17,7 +17,7 @@ public:
         if(queue.empty()) return;
         queue.removeAt(0);
     }
-    T front() {
-        return queue.head ? queue.head->data : T{};
+    T* front() {
+        return queue.head ? &queue.head->data : nullptr;
     }
 };

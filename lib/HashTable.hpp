@@ -55,13 +55,12 @@ public:
             _size--;
         } else return;
     }
-    B find(A key) {
+    B* find(A key) {
         int idx = hashFunc(key);
         Pair<A, B> dummy = {key, B{}};
         Pair<A, B>* res =  bucket[idx].searchForHashMap(dummy);
-        if(res) return res->val;
-        cout << "[!]";
-        return B{};
+        if(res) return &res->val;
+        return nullptr;
     }
     bool contains(A key) {
         Pair<A, B> dummy = {key, B{}};

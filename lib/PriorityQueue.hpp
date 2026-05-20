@@ -21,7 +21,7 @@ void heapify(vector<T> &a, int n, int i) {
     }
 }
 template<typename T>
-class priorityQueue {
+class PriorityQueue {
 private:
     vector<T> heap;
 public:
@@ -39,8 +39,8 @@ public:
         heap.pop_back();
         heapify(heap, heap.size(), 0);
     }
-    T peek() {
-        return heap.empty() ? T{} : heap[0]; 
+    T* peek() {
+        return heap.empty() ? nullptr : &heap.back();
     }
     bool empty() {
         return heap.size() == 0;
