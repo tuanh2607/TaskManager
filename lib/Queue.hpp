@@ -1,3 +1,5 @@
+#ifndef QUEUE_HPP
+#define QUEUE_HPP
 #include "LinkedList.hpp"
 template<typename T>
 class Queue {
@@ -18,6 +20,7 @@ public:
         queue.removeAt(0);
     }
     T* front() {
-        return queue.head ? &queue.head->data : nullptr;
+        return queue.getHead() ? &queue.getHead()->data : nullptr;
     }
 };
+#endif

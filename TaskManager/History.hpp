@@ -7,6 +7,7 @@ using namespace std;
 struct Operation {
     string type;  // "ADD", "DELETE", "COMPLETE"
     Task task;  // snapshot của task tại thời điểm thao tác
+    Operation(string t, Task ts) : type(t) , task(ts) {}
 };
 
 class History {
@@ -27,8 +28,5 @@ public:
     bool canUndo() {
         return s.empty();
     };
-
-    // Xóa toàn bộ Stack, dùng khi load lại từ file
-    void clear();
 };
 #endif

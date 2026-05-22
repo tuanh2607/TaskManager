@@ -1,3 +1,5 @@
+#ifndef LINKEDLIST_HPP
+#define LINKEDLIST_HPP
 using namespace std;
 template<typename T>
 class LinkedList {
@@ -106,4 +108,8 @@ public:
     int size() {
         return _size;
     }
+    Node* getHead() {
+        return head;
+    }
 };
+#endif

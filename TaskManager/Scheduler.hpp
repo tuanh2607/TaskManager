@@ -5,20 +5,20 @@
 #include "../lib/Queue.hpp"
 class Scheduler {
 private:
-    PriorityQueue<Task> pq;
-    Queue<Task> q;
+    PriorityQueue<TaskByPriority> pq;
+    Queue<TaskByPriority> q;
 public:
     // Thêm task vào PriorityQueue — dùng cho task HIGH/MED priority
-    void addUrgent(Task &t) {
+    void addUrgent(TaskByPriority &t) {
         pq.insert(t);
     };
     // Thêm task vào Queue FIFO — dùng cho task LOW priority
-    void addNormal(Task &t) {
+    void addNormal(TaskByPriority &t) {
         q.enqueue(t);
     };
 
     // Lấy task tiếp theo: ưu tiên lấy từ PriorityQueue trước, Queue sau
-    Task* getNext() {
+    TaskByPriority* getNext() {
         if(!pq.empty()) return pq.peek();
         else return q.front();
     };

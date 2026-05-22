@@ -1,8 +1,7 @@
+#ifndef AVL_HPP
+#define AVL_HPP
+#include "Algorithms.hpp"
 using namespace std;
-int Max(int a, int b) {
-    if(a > b) return a;
-    return b;
-}
 template<typename T>
 class AVL {
 private:
@@ -14,7 +13,6 @@ private:
         Node(T val) : data(val), l(nullptr), r(nullptr), h(1) {}
     };
     Node* root;
-
     int height (Node* root) {
         return root ? root->h : 0;
     }
@@ -135,7 +133,7 @@ private:
         if(!root) return;
         toVector(root->l, a);
         toVector(root->r, a);
-        a.push_back(root);
+        a.push_back(root->data);
     }
 public:
     AVL() : root(nullptr) {}
@@ -190,3 +188,4 @@ public:
         return res;
     }
 };
+#endif

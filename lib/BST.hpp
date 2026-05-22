@@ -1,3 +1,5 @@
+#ifndef BST_HPP
+#define BST_HPP
 template<typename T>
 class BST {
 private:
@@ -103,4 +105,4 @@ public:
         LRN(root);
     }
 };
-// xong
+#endif

@@ -1,3 +1,5 @@
+#ifndef STACK_HPP
+#define STACK_HPP
 #include "LinkedList.hpp"
 template<typename T>
 class Stack {
@@ -15,9 +17,10 @@ public:
         stack.removeAt(0);
     }
     T* top() {
-        return stack.head ? &stack.head->data : nullptr;
+        return stack.getHead() ? &stack.getHead()->data : nullptr;
     }
     int size() {
         return stack.size();
     }
 };
+#endif

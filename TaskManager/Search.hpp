@@ -6,24 +6,22 @@
 using namespace std;
 class Search {
 private:
-    HashTable<long long, Task> table;
+    HashTable<long long, TaskById> table;
 public:
-    void addTask(Task t) {
-        table.insert(t.id, t);
+    void addTask(TaskById t) {
+        table.insert(t.task.id, t);
     }
     // Xóa task khỏi AVL và HashTable theo id
-    void remove(int id) {
-
+    void remove(long long id) {
+        table.remove(id);
     };
     // Tra cứu O(1) theo id qua HashTable
-    Task* findById(long long id) {
+    TaskById* findById(long long id) {
         return table.find(id);
     };
-
-    // Tìm task theo title, duyệt qua AVL
-    Task* findByTitle(const string& title);
-
     // Xóa toàn bộ index, dùng khi reset hoặc load lại từ file
-    void clear();
+    void clear() {
+        table.clear();
+    };
 };
 #endif

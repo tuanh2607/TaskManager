@@ -1,25 +1,8 @@
+#ifndef PRIORITYQUEUE_HPP
+#define PRIORITYQUEUE_HPP
+#include "Algorithms.hpp"
 #include <vector>
 using namespace std;
-template<typename T>
-void Swap(T &a, T &b) {
-    T tmp = a;
-    a = b;
-    b = tmp;
-}
-template<typename T>
-void heapify(vector<T> &a, int n, int i) {
-    int l = 2 * i + 1;
-    int r = 2 * i + 2;
-    int largest = i;
-
-    if(l < n && a[l] > a[largest]) largest = l;
-    if(r < n && a[r] > a[largest]) largest = r;
-
-    if(largest != i) {
-        Swap(a[i], a[largest]);
-        heapify(a, n, largest);
-    }
-}
 template<typename T>
 class PriorityQueue {
 private:
@@ -49,3 +32,4 @@ public:
         return heap.size();
     }
 };
+#endif

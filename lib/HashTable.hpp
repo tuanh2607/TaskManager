@@ -1,3 +1,5 @@
+#ifndef HASHTABLE_HPP
+#define HASHTABLE_HPP
 #include "AVL.hpp"
 #include <vector>
 #include <string>
@@ -76,3 +78,4 @@ public:
         _size = 0;
     }
 };
+#endif

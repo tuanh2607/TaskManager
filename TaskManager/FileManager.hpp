@@ -7,24 +7,23 @@
 using namespace std;
 class FileManager {
 public:
-    // Ghi toàn bộ vector<Task> xuống file CSV, ghi đè nếu file đã tồn tại
-    void save(const vector<Task>& tasks, const string& filename) {
+    void save(AVL<TaskById>& tasks, const string& filename) {
         ofstream f(filename);
+        vector<TaskById> arr = tasks.toVector();
         f << "id,priority,title,status,deadline\n";
-        for(int i = 0; i < tasks.size(); i++) {
-            f << tasks[i].id << ',' << tasks[i].title << ',' << tasks[i].priority << ',' << tasks[i].deadline << ',' << tasks[i].status << ',' << endl;
+        for(TaskById &t : arr) {
+            Task ts = t.task;
+            f << ts.id << ',' << ts.title << ',' << ts.priority << ',' << ts.deadline << ',' << ts.status << ',' << endl;
         }
     };
-
-    // Đọc file CSV, parse từng dòng thành Task, trả về vector để TaskManager nạp vào
     vector<Task> load(const string& filename) {
         ifstream f(filename);
         vector<Task> arr;
         string s;
         getline(f, s);
         while(getline(f,s)) {
-            Task o;
-            arr.push_back(parseTask(s, o));
+            Task object;
+            arr.push_back(parseTask(s, object));
         }
         return arr;
     }

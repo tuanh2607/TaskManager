@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cstdlib>
 #include <iomanip>
 #include "Task.hpp"
 #include "../lib/LinkedList.hpp"
@@ -41,14 +42,14 @@ Task parseTask(string s, Task &o){
     }
     v.push_back(cur);
     o.id = stoll(v[0]);
-    o.priority = stoi(v[1]);
-    o.title = v[2];
+    o.priority = stoi(v[2]);
+    o.title = v[1];
     o.status = v[3];
     o.deadline = v[4];
     return o;
 }
 void printValidPage(int n) {
-    cout << "[!] Số bảng hiện có :\n";
+    cout << "[!] Số bảng hiện có : ";
     for(int i = 0; i < n; i++) {
         cout << "(" << i + 1 << ")~>";
     }
@@ -85,5 +86,16 @@ void printPage(int pagenum, vector<vector<Task>> &a) {
         cout << left << setw(15) << page[i].id << setw(15) << page[i].priority << setw(42) << page[i].title << setw(15) << page[i].status << setw(15) << page[i].deadline << endl;
     }
     cout << line << endl;
+}
+void clearScreen() {
+    system("cls");
+}
+bool isAllDigits(const string& str) {
+    for (char c : str) {
+        if (!isdigit(c)) {
+            return false;
+        }
+    }
+    return true;
 }
 #endif

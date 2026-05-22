@@ -1,3 +1,5 @@
+#ifndef ALGORITHMS_HPP
+#define ALGORITHMS_HPP
 #include <vector>
 using namespace std;
 template<typename T>
@@ -5,6 +7,10 @@ void Swap(T &a, T &b) {
     T tmp = a;
     a = b;
     b = tmp;
+}
+int Max(int a, int b) {
+    if(a > b) return a;
+    return b;
 }
 template<typename T>
 void bubbleSort(vector<T> &a, int n){
@@ -128,3 +134,4 @@ T* binarySearch(vector<T> &a, T val) {
     }
     return nullptr;
 }
+#endif

@@ -1,7 +1,6 @@
 #ifndef TASKMANAGER_HPP
 #define TASKMANAGER_HPP
 #include <iostream>
-#include "UI.hpp"
 #include "Task.hpp"
 #include "Scheduler.hpp"
 #include "Search.hpp"
@@ -14,10 +13,11 @@
 #include "../lib/Algorithms.hpp"
 #include <fstream>
 #include <string>
+#include <cctype>
 using namespace std;
 class TaskManager {
 private:
-    AVL<Task> allTasks; // nguồn sự thật
+    AVL<TaskById> allTasks;
     Scheduler scheduler;
     Search search;
     History history;
@@ -29,10 +29,12 @@ public:
     TaskManager(const string &filename) {
         vector<Task> arr = fileManager.load(filename);
         for(int i = 0; i < arr.size(); i++) {
-            allTasks.insert(arr[i]);
-            if(arr[i].priority == 1) scheduler.addNormal(arr[i]);
-            else scheduler.addUrgent(arr[i]);
-            search.addTask(arr[i]);
+            TaskByPriority P(arr[i]);
+            TaskById I(arr[i]);
+            allTasks.insert(TaskById(arr[i]));
+            if (arr[i].priority == 1) scheduler.addNormal(P);
+            else scheduler.addUrgent(P);
+            search.addTask(I);
         }
     };
     // Destructor: tự động gọi save() trước khi object bị hủy
@@ -45,52 +47,65 @@ public:
 
     };
     // Tạo Task mới, thêm vào Scheduler và SearchEngine, record vào History
-    void addTask(string title, int p, string deadline) {
-
+    void addTask(long long id, int p, string title, string deadline) {
+        Task tmp(id, p, title, deadline);
+        TaskById I(tmp);
+        TaskByPriority P(tmp);
+        allTasks.insert(I);
+        search.addTask(I);
+        if(p == 1) scheduler.addNormal(P);
+        else scheduler.addUrgent(P);
     };
 
     // Đánh dấu task là DONE, cập nhật trong SearchEngine, record vào History
     void completeTask(long long id) {
-        Task* tmp = search.findById(id);
+        TaskById* tmp = search.findById(id);
         if(!tmp) return;
-        Operation update;
-        update.type = "COMPLETE";
-        update.task = *tmp;
+        Operation update("COMPLETE", tmp->task);
         history.record(update);
     };
 
     // Xóa task khỏi Scheduler và SearchEngine, record vào History
-    void deleteTask(int id) {
-
+    void deleteTask(long long id) {
+        search.remove(id);
+        allTasks.remove(*search.findById(id));
     };
 
     // Gọi Scheduler.getNext() để lấy task ưu tiên cao nhất hiện tại
-    Task* getNextTask() {
-        return scheduler.getNext();
+    Task getNextTask() {
+        return scheduler.getNext()->task;
     };
     // Gọi SearchEngine.findById()
-    Task *searchById(long long id) {
-        return search.findById(id);
+    Task searchById(long long id) {
+        return search.findById(id)->task;
     };
-
-    // Gọi SearchEngine.findByTitle()
-    Task *searchByTitle(const string &title);
-
     // Lấy toàn bộ task, dùng Algorithms để sort theo priority rồi in ra
     void listAll() {
-        vector<Task> arr;
+        vector<TaskById> arr;
         arr = allTasks.toVector();
-        quickSort(arr,0, arr.size() - 1);
-        vector<vector<Task>> table = builtPage(arr);
+        vector<TaskByPriority> ar;
+        for(TaskById &t : arr) ar.push_back(TaskByPriority(t.task));
+        quickSort(ar, 0, ar.size() - 1);
+        vector<Task> taskList;
+        for(TaskByPriority &t : ar) taskList.push_back(t.task);
+        vector<vector<Task>> table = builtPage(taskList);
         int size_page = table.size();
-        printValidPage(size_page);
         while(true) {
-            int choice;
+            printValidPage(size_page);
+            string s;
             cout << "[!] Chọn trang (Chọn ngoài khoảng để thoát) : ";
-            cin >> choice;
-            if(!isdigit(choice) || choice < 0 || choice > 0) return;
-            clearScreen();
-            printPage(choice, table);
+            getline(cin, s);
+            if(isAllDigits(s)) {
+                int choice = stoi(s);
+                if(choice < 0 || choice > size_page) {
+                    clearScreen();
+                    return;
+                }
+                printPage(choice, table);
+            } else {
+                clearScreen();
+                return;
+            }
         }
     };
 
@@ -101,9 +116,7 @@ public:
 
     // Gọi FileManager.save() để ghi toàn bộ task xuống file
     void save() {
-        vector<Task> arr;
-        arr = allTasks.toVector();
-        fileManager.save(arr, filename);
+        fileManager.save(allTasks, filename);
     };
 };
 #endif

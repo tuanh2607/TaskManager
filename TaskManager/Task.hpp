@@ -9,17 +9,36 @@ struct Task {
     string title;
     string status;
     string deadline;
+    Task() {}
+    Task(long long i, int p, string t, string d) : id(i), priority(p), status("TODO"), deadline(d) {}  
+};
 
-    // So sánh theo priority để PriorityQueue hoạt động đúng
-    bool operator < (const Task& other) const {
-        return priority < other.priority;
-    };
-    bool operator > (const Task &other) const {
-        return priority > other.priority;
-    };
-    // So sánh theo id để AVL và HashTable tìm đúng node
-    bool operator == (const Task& other) const {
-        return id == other.id;
-    };
+struct TaskById {
+    Task task;
+    TaskById() {}
+    TaskById(const Task& t) : task(t) {}
+    bool operator<(const TaskById &other) const {
+        return task.id < other.task.id;
+    }
+    bool operator>(const TaskById &other) const {
+        return task.id > other.task.id;
+    }
+    bool operator==(const TaskById &other) const {
+        return task.id == other.task.id;
+    }
+};
+struct TaskByPriority {
+    Task task;
+    TaskByPriority() {}
+    TaskByPriority(const Task& t) : task(t) {}
+    bool operator<(const TaskByPriority &other) const {
+        return task.priority < other.task.priority;
+    }
+    bool operator>(const TaskByPriority &other) const {
+        return task.priority > other.task.priority;
+    }
+    bool operator==(const TaskByPriority &other) const {
+        return task.id == other.task.id;
+    }
 };
 #endif
