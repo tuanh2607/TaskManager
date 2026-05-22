@@ -10,7 +10,7 @@ struct Task {
     string status;
     string deadline;
     Task() {}
-    Task(long long i, int p, string t, string d) : id(i), priority(p), status("TODO"), deadline(d) {}  
+    Task(long long i, int p, string t, string d) : id(i), priority(p), title(t), status("TODO"), deadline(d) {}  
 };
 
 struct TaskById {

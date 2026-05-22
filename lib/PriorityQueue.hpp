@@ -23,7 +23,7 @@ public:
         heapify(heap, heap.size(), 0);
     }
     T* peek() {
-        return heap.empty() ? nullptr : &heap.back();
+        return heap.empty() ? nullptr : &heap[0];
     }
     bool empty() {
         return heap.size() == 0;

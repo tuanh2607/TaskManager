@@ -23,17 +23,17 @@ private:
     History history;
     FileManager fileManager;
     long long nextId;
-    string filename;
+    string file;
 public:
     // Constructor: load dữ liệu từ file CSV, nạp vào Scheduler + SearchEngine
     TaskManager(const string &filename) {
-        vector<Task> arr = fileManager.load(filename);
+        file = filename;
+        vector<Task> arr = fileManager.load(file);
         for(int i = 0; i < arr.size(); i++) {
             TaskByPriority P(arr[i]);
             TaskById I(arr[i]);
             allTasks.insert(TaskById(arr[i]));
-            if (arr[i].priority == 1) scheduler.addNormal(P);
-            else scheduler.addUrgent(P);
+            scheduler.addUrgent(P);
             search.addTask(I);
         }
     };
@@ -53,8 +53,7 @@ public:
         TaskByPriority P(tmp);
         allTasks.insert(I);
         search.addTask(I);
-        if(p == 1) scheduler.addNormal(P);
-        else scheduler.addUrgent(P);
+        scheduler.addUrgent(P);
     };
 
     // Đánh dấu task là DONE, cập nhật trong SearchEngine, record vào History
@@ -72,8 +71,8 @@ public:
     };
 
     // Gọi Scheduler.getNext() để lấy task ưu tiên cao nhất hiện tại
-    Task getNextTask() {
-        return scheduler.getNext()->task;
+    Task* getNextTask() {
+        return &scheduler.getNext()->task;
     };
     // Gọi SearchEngine.findById()
     Task searchById(long long id) {
@@ -93,22 +92,23 @@ public:
         while(true) {
             printValidPage(size_page);
             string s;
-            cout << "[!] Chọn trang (Chọn ngoài khoảng để thoát) : ";
+            cout << "[!] Enter page number to view or any non-digit to exit : ";
             getline(cin, s);
             if(isAllDigits(s)) {
                 int choice = stoi(s);
-                if(choice < 0 || choice > size_page) {
+                if(choice <= 0 || choice > size_page) {
                     clearScreen();
                     return;
                 }
                 printPage(choice, table);
+                pauseScreen();
+                clearScreen();
             } else {
                 clearScreen();
                 return;
             }
         }
     };
-
     // Gọi History.undo(), thực hiện thao tác ngược lại, cập nhật DS tương ứng
     void undo() {
 
@@ -116,7 +116,7 @@ public:
 
     // Gọi FileManager.save() để ghi toàn bộ task xuống file
     void save() {
-        fileManager.save(allTasks, filename);
+        fileManager.save(allTasks, file);
     };
 };
 #endif
