@@ -8,6 +8,18 @@
 #include "Task.hpp"
 #include "../lib/LinkedList.hpp"
 using namespace std;
+void clearScreen() {
+#ifdef _WIN32
+    system("chcp 65001 > nul");
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+void pauseScreen() {
+    cout << "\n  [Press Enter to continue...]";
+    cin.get();
+}
 bool isLeapYear(int year) {
     return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
@@ -18,6 +30,15 @@ bool isValidDate(int day, int month, int year) {
     if (isLeapYear(year)) daysInMonth[1] = 29;
     if (day < 1 || day > daysInMonth[month - 1]) return false;
     return true;
+}
+string convertDate(string date) {
+    string hour = date.substr(0, 2);      
+    string minute = date.substr(3, 2);    
+    string day = date.substr(6, 2);       
+    string month = date.substr(9, 2);     
+    string year = date.substr(12, 4);    
+    string output = hour + ":" + minute + "-" + day + "/" + month + "/" + year;
+    return output;
 }
 bool validPriority(int num){
     if(num < 1 || num > 3) return false;
@@ -83,21 +104,9 @@ void printPage(int pagenum, vector<vector<Task>> &a) {
     cout << line << endl;
     vector<Task> page = a[pagenum - 1];
     for(int i = 0; i < page.size(); i++) {
-        cout << left << setw(15) << page[i].id << setw(15) << page[i].priority << setw(42) << page[i].title << setw(15) << page[i].status << setw(15) << page[i].deadline << endl;
+        cout << left << setw(15) << page[i].id << setw(15) << page[i].priority << setw(42) << page[i].title << setw(15) << page[i].status << setw(15) << convertDate(page[i].deadline) << endl;
     }
     cout << line << endl;
-}
-void clearScreen() {
-#ifdef _WIN32
-    system("chcp 65001 > nul");
-    system("cls");
-#else
-    system("clear");
-#endif
-}
-void pauseScreen() {
-    cout << "\n  [Press Enter to continue...]";
-    cin.get();
 }
 bool isAllDigits(const string& str) {
     for (char c : str) {

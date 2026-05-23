@@ -14,31 +14,31 @@ struct Task {
 };
 
 struct TaskById {
-    Task task;
-    TaskById() {}
-    TaskById(const Task& t) : task(t) {}
+    Task* task;
+    TaskById() : task(nullptr) {}
+    TaskById(Task* t) : task(t) {}
     bool operator<(const TaskById &other) const {
-        return task.id < other.task.id;
+        return task->id < other.task->id;
     }
     bool operator>(const TaskById &other) const {
-        return task.id > other.task.id;
+        return task->id > other.task->id;
     }
     bool operator==(const TaskById &other) const {
-        return task.id == other.task.id;
+        return task->id == other.task->id;
     }
 };
 struct TaskByPriority {
-    Task task;
-    TaskByPriority() {}
-    TaskByPriority(const Task& t) : task(t) {}
+    Task* task;
+    TaskByPriority() : task(nullptr) {}
+    TaskByPriority(Task* t) : task(t) {}
     bool operator<(const TaskByPriority &other) const {
-        return task.priority < other.task.priority;
+        return task->priority < other.task->priority;
     }
     bool operator>(const TaskByPriority &other) const {
-        return task.priority > other.task.priority;
+        return task->priority > other.task->priority;
     }
     bool operator==(const TaskByPriority &other) const {
-        return task.id == other.task.id;
+        return task->id == other.task->id;
     }
 };
 #endif

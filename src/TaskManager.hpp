@@ -17,38 +17,34 @@
 using namespace std;
 class TaskManager {
 private:
+    long long nextId;
+    string file;
     AVL<TaskById> allTasks;
     Scheduler scheduler;
     Search search;
     History history;
     FileManager fileManager;
-    long long nextId;
-    string file;
 public:
-    // Constructor: load dữ liệu từ file CSV, nạp vào Scheduler + SearchEngine
     TaskManager(const string &filename) {
         file = filename;
         vector<Task> arr = fileManager.load(file);
         for(int i = 0; i < arr.size(); i++) {
-            TaskByPriority P(arr[i]);
-            TaskById I(arr[i]);
-            allTasks.insert(TaskById(arr[i]));
+            Task* t = new Task(arr[i]);
+            TaskByPriority P(t);
+            TaskById I(t);
+            allTasks.insert(I);
             scheduler.addUrgent(P);
             search.addTask(I);
         }
     };
-    // Destructor: tự động gọi save() trước khi object bị hủy
     ~TaskManager() {
         save();
-    };
-
-    // Thêm task vào AVL (key = deadline) và HashTable (key = id)
-    void index(Task t) {
-
+        vector<TaskById> arr = allTasks.toVector();
+        for(TaskById &t : arr) delete t.task;
     };
     // Tạo Task mới, thêm vào Scheduler và SearchEngine, record vào History
     void addTask(long long id, int p, string title, string deadline) {
-        Task tmp(id, p, title, deadline);
+        Task* tmp = new Task(id, p, title, deadline);
         TaskById I(tmp);
         TaskByPriority P(tmp);
         allTasks.insert(I);
@@ -59,56 +55,62 @@ public:
     // Đánh dấu task là DONE, cập nhật trong SearchEngine, record vào History
     void completeTask(long long id) {
         TaskById* tmp = search.findById(id);
-        if(!tmp) return;
-        Operation update("COMPLETE", tmp->task);
+        if(!tmp || !tmp->task) return;
+        tmp->task->status = "DONE";
+        Operation update("COMPLETE", *tmp->task);
         history.record(update);
     };
 
     // Xóa task khỏi Scheduler và SearchEngine, record vào History
     void deleteTask(long long id) {
+        TaskById* tmp = search.findById(id);
+        if(!tmp || !tmp->task) return;
+        allTasks.remove(*tmp);
         search.remove(id);
-        allTasks.remove(*search.findById(id));
+        delete tmp->task;
     };
 
     // Gọi Scheduler.getNext() để lấy task ưu tiên cao nhất hiện tại
     Task* getNextTask() {
-        return &scheduler.getNext()->task;
+        TaskByPriority* tmp = scheduler.getNext();
+        if(!tmp || !tmp->task) return nullptr;
+        return tmp->task;
     };
     // Gọi SearchEngine.findById()
-    Task searchById(long long id) {
-        return search.findById(id)->task;
+    Task* searchById(long long id) {
+        TaskById* tmp = search.findById(id);
+        if(!tmp || !tmp->task) return nullptr;
+        return tmp->task;
     };
     // Lấy toàn bộ task, dùng Algorithms để sort theo priority rồi in ra
     void listAll() {
-        vector<TaskById> arr;
-        arr = allTasks.toVector();
-        vector<TaskByPriority> ar;
-        for(TaskById &t : arr) ar.push_back(TaskByPriority(t.task));
-        quickSort(ar, 0, ar.size() - 1);
-        vector<Task> taskList;
-        for(TaskByPriority &t : ar) taskList.push_back(t.task);
-        vector<vector<Task>> table = builtPage(taskList);
-        int size_page = table.size();
-        while(true) {
-            printValidPage(size_page);
-            string s;
-            cout << "[!] Enter page number to view or any non-digit to exit : ";
-            getline(cin, s);
-            if(isAllDigits(s)) {
-                int choice = stoi(s);
-                if(choice <= 0 || choice > size_page) {
-                    clearScreen();
-                    return;
-                }
-                printPage(choice, table);
-                pauseScreen();
-                clearScreen();
-            } else {
-                clearScreen();
-                return;
-            }
-        }
-    };
+    vector<TaskById> allTasksArr = allTasks.toVector();
+    vector<TaskByPriority> tasksByPriority;
+
+    for(TaskById &t : allTasksArr) tasksByPriority.push_back(TaskByPriority(t.task));
+    quickSort(tasksByPriority, 0, tasksByPriority.size() - 1);
+    
+    vector<Task> taskList;
+    for(TaskByPriority &t : tasksByPriority) taskList.push_back(*t.task);
+
+    vector<vector<Task>> pages = builtPage(taskList);
+    while(true) {
+        printValidPage(pages.size());
+        string input;
+        cout << "[!] Enter page number to view or any non-digit to exit : ";
+        getline(cin, input);    
+        if(!isAllDigits(input)) break;    
+        int pageNum = stoi(input);
+        if(pageNum <= 0 || pageNum > pages.size()) {
+            clearScreen();
+            break;
+        }    
+        printPage(pageNum, pages);
+        pauseScreen();
+        clearScreen();
+    }
+    clearScreen();
+}
     // Gọi History.undo(), thực hiện thao tác ngược lại, cập nhật DS tương ứng
     void undo() {
 

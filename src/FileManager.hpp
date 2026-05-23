@@ -12,7 +12,7 @@ public:
         vector<TaskById> arr = tasks.toVector();
         f << "id,priority,title,status,deadline\n";
         for(TaskById &t : arr) {
-            Task ts = t.task;
+            Task ts = *t.task;
             f << ts.id << ',' << ts.priority << ',' << ts.title << ',' << ts.status << ',' << ts.deadline << endl;
         }
     };

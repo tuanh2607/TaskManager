@@ -7,7 +7,7 @@ using namespace std;
 struct Operation {
     string type;  // "ADD", "DELETE", "COMPLETE"
     Task task;  // snapshot của task tại thời điểm thao tác
-    Operation(string t, Task ts) : type(t) , task(ts) {}
+    Operation(string t, Task &ts) : type(t) , task(ts) {}
 };
 
 class History {

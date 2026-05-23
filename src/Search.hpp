@@ -9,7 +9,7 @@ private:
     HashTable<long long, TaskById> table;
 public:
     void addTask(TaskById t) {
-        table.insert(t.task.id, t);
+        table.insert(t.task->id, t);
     }
     // Xóa task khỏi AVL và HashTable theo id
     void remove(long long id) {

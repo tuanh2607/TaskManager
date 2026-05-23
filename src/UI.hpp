@@ -47,12 +47,13 @@ public:
                 cout << line << endl;
                 cout << left << setw(15) << "ID" << setw(15) << "Priority" << setw(42) << "Title" << setw(15) << "Status" << setw(15) << "Deadline" << endl;
                 cout << line << endl;
-                cout << left << setw(15) << id << setw(15) << p << setw(42) << t << setw(15) << "TODO" << setw(15) << d << endl;
+                cout << left << setw(15) << id << setw(15) << p << setw(42) << t << setw(15) << "TODO" << setw(15) << convertDate(d) << endl;
                 cout << line << endl;
                 cout << "[!] Add task [y/n] : ";
                 char choice;
                 cin >> choice;
-                if(tolower(choice) == 'y') {
+                cin.ignore();
+                if(choice == 'y' || choice == 'Y') {
                     tm.addTask(id, p, t, d);
                     cout << "[!] Task added successfully\n";
                 }
@@ -65,7 +66,7 @@ public:
                     cout << line << endl;
                     cout << left << setw(15) << "ID" << setw(15) << "Priority" << setw(42) << "Title" << setw(15) << "Status" << setw(15) << "deadline" << endl;
                     cout << line << endl;
-                    cout << left << setw(15) << t.id << setw(15) << t.priority << setw(42) << t.title << setw(15) << t.status << setw(15) << t.deadline << endl;
+                    cout << left << setw(15) << t.id << setw(15) << t.priority << setw(42) << t.title << setw(15) << t.status << setw(15) << convertDate(t.deadline) << endl;
                     cout << line << endl;
                 } else {
                     cout << "[!] No tasks available\n";
@@ -73,7 +74,14 @@ public:
                 pauseScreen();
                 clearScreen();
             } else if(choice == "3") {
-
+                long long id;
+                cout << "[?] Enter task ID to complete : ";
+                cin >> id;
+                cin.ignore();
+                tm.completeTask(id);
+                cout << "[!] Task marked as DONE\n";
+                pauseScreen();
+                clearScreen();
             } else if(choice == "4") {
                 
             } else if(choice == "5") {
