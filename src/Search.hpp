@@ -11,17 +11,14 @@ public:
     void addTask(TaskById t) {
         table.insert(t.task->id, t);
     }
-    // Xóa task khỏi AVL và HashTable theo id
     void remove(long long id) {
         table.remove(id);
-    };
-    // Tra cứu O(1) theo id qua HashTable
+    }
     TaskById* findById(long long id) {
         return table.find(id);
-    };
-    // Xóa toàn bộ index, dùng khi reset hoặc load lại từ file
+    }
     void clear() {
         table.clear();
-    };
+    }
 };
 #endif

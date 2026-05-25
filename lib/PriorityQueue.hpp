@@ -22,6 +22,16 @@ public:
         heap.pop_back();
         heapify(heap, heap.size(), 0);
     }
+    void deleteValue(T val) {
+        for(int i = 0; i < heap.size(); i++) {
+            if(heap[i] == val) {
+                heap[i] = heap.back();
+                heap.pop_back();
+                heapify(heap, heap.size(), i);
+                return;
+            }
+        }
+    }
     T* peek() {
         return heap.empty() ? nullptr : &heap[0];
     }

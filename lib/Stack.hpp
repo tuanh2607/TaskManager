@@ -13,7 +13,7 @@ public:
         stack.insertFront(val);
     }
     void pop(){
-        if(stack.empty()) return;
+        if(stack.size() == 0) return;
         stack.removeAt(0);
     }
     T* top() {

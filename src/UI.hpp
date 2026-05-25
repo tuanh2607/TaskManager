@@ -49,12 +49,12 @@ public:
                 cout << line << endl;
                 cout << left << setw(15) << id << setw(15) << p << setw(42) << t << setw(15) << "TODO" << setw(15) << convertDate(d) << endl;
                 cout << line << endl;
-                cout << "[!] Add task [y/n] : ";
+                cout << "[?] Add task [y/n] : ";
                 char choice;
                 cin >> choice;
                 cin.ignore();
                 if(choice == 'y' || choice == 'Y') {
-                    tm.addTask(id, p, t, d);
+                    tm.addTask(id, p, t, d, true);
                     cout << "[!] Task added successfully\n";
                 }
                 pauseScreen();
@@ -78,21 +78,30 @@ public:
                 cout << "[?] Enter task ID to complete : ";
                 cin >> id;
                 cin.ignore();
-                tm.completeTask(id);
+                tm.completeTask(id, true);
                 cout << "[!] Task marked as DONE\n";
                 pauseScreen();
                 clearScreen();
             } else if(choice == "4") {
-                
+                cout << "[?] Enter deadline of task to delete in format (HH-MM-DD-MM-YYYY) : ";
+                string d;
+                getline(cin, d);
+                long long id = extractDate(d);
+                tm.deleteTask(id, true);
+                cout << "[!] Task deleted successfully\n";
+                pauseScreen();
+                clearScreen();
             } else if(choice == "5") {
 
             } else if(choice == "6") {
-
+                tm.undo();
+                pauseScreen();
+                clearScreen();
             } else if(choice == "7") {
                 tm.listAll();
             } else if(choice == "8") {
                 tm.save();
-                cout << "[!] Save successful\n";
+                cout << "[!] Saved successfully\n";
                 pauseScreen();
                 clearScreen();
             } else break;
