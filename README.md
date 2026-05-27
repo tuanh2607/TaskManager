@@ -1,11 +1,11 @@
-# IntegratedDSA
+# TaskManager
 
 This project integrates data structures and algorithms into an application that visualizes how they work.
 ## Setting
 
 ```bash
 # Clone repository
-https://github.com/tuanh2607/IntegratedDSA.git
+https://github.com/tuanh2607/TaskManager.git
 
 ```
 
@@ -13,30 +13,28 @@ https://github.com/tuanh2607/IntegratedDSA.git
 How to run program step by step
 ```bash
 # step 1 : Clone repository
-git clone https://github.com/tuanh2607/IntegratedDSA.git
-# step 2 : Change direction
-cd app
+git clone https://github.com/tuanh2607/TaskManager.git
 # step 3 : Built program
-g++ main.cpp UI.cpp -o program
+g++ app\main.cpp -o program
 # step 4 : Run program
-.\program
+.\program data.txt
 ```
 ## Folder structure
 
 ```
-project/
+TaskManager/
 ├── app/
 |   ├── main.cpp
-|   └── UI.cpp
+|   └── data.txt
 ├── lib/
 |   ├── Algorithms.hpp
 |   ├── AVL.hpp
-|   ├── BST.hpp
-|   ├── HashTable.hpp
-|   ├── LinkedList.hpp
-|   ├── PriorityQueue.hpp
-|   ├── Queue.hpp
-|   └── Stack.hpp
-├── Makefile
+|   └── ...
+├── src/
+|   ├── TaskManager.hpp
+|   ├── UI.hpp
+|   └── ... 
+├── MakeFile
+├── demo.txt
 └── README.md
 ```

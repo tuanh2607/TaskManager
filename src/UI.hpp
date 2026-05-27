@@ -17,7 +17,6 @@ public:
         cout << "║ [5] Search                     ║\n";
         cout << "║ [6] Undo                       ║\n";
         cout << "║ [7] View all tasks             ║\n";
-        cout << "║ [8] Save file                  ║\n";
         cout << "║ [0] Exit                       ║\n";
         cout << "╚════════════════════════════════╝\n";
         cout << "[?] Choose an option : ";
@@ -75,9 +74,10 @@ public:
                 clearScreen();
             } else if(choice == "3") {
                 long long id;
-                cout << "[?] Enter task ID to complete : ";
-                cin >> id;
-                cin.ignore();
+                cout << "[?] Enter deadline of task to complete in format (HH-MM-DD-MM-YYYY) : ";
+                string d;
+                getline(cin, d);
+                id = extractDate(d);
                 tm.completeTask(id, true);
                 cout << "[!] Task marked as DONE\n";
                 pauseScreen();
@@ -92,18 +92,51 @@ public:
                 pauseScreen();
                 clearScreen();
             } else if(choice == "5") {
-
+                cout << "[?] Search by [1] ID or [2] Title : ";
+                string searchChoice;
+                getline(cin, searchChoice);
+                if(searchChoice == "1") {
+                    cout << "[?] Enter deadline of task to search in format (HH-MM-DD-MM-YYYY) : ";
+                    string d;
+                    getline(cin, d);
+                    long long id = extractDate(d);
+                    Task* t = tm.searchById(id);
+                    if(t) {
+                        string line = repeatStr("═", 103);
+                        cout << line << endl;
+                        cout << left << setw(15) << "ID" << setw(15) << "Priority" << setw(42) << "Title" << setw(15) << "Status" << setw(15) << "Deadline" << endl;
+                        cout << line << endl;
+                        cout << left << setw(15) << t->id << setw(15) << t->priority << setw(42) << t->title << setw(15) << t->status << setw(15) << convertDate(t->deadline) << endl;
+                        cout << line << endl;
+                    } else {
+                        cout << "[!] Task not found\n";
+                    }
+                } else if(searchChoice == "2") {
+                    cout << "[?] Enter title of task to search : ";
+                    string title;
+                    getline(cin, title);
+                    Task* t = tm.searchByTitle(title);
+                    if(t) {
+                        string line = repeatStr("═", 103);
+                        cout << line << endl;
+                        cout << left << setw(15) << "ID" << setw(15) << "Priority" << setw(42) << "Title" << setw(15) << "Status" << setw(15) <<"Deadline"  << endl;
+                        cout << line << endl;
+                        cout << left << setw(15) << t->id<< setw(15)  << t->priority<< setw(42)<< t->title<< setw(15)<< t->status<< setw(15)<< convertDate(t->deadline)<< endl;
+                        cout<< line<< endl;
+                    } else {
+                        cout<< "[!] Task not found\n";
+                    }
+                } else {
+                    cout<< "[!] Invalid choice\n";
+                }
+                pauseScreen();
+                clearScreen();
             } else if(choice == "6") {
                 tm.undo();
                 pauseScreen();
                 clearScreen();
             } else if(choice == "7") {
                 tm.listAll();
-            } else if(choice == "8") {
-                tm.save();
-                cout << "[!] Saved successfully\n";
-                pauseScreen();
-                clearScreen();
             } else break;
         }
     };

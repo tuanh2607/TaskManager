@@ -37,12 +37,13 @@ public:
             search.addTask(I);
         }
     };
+    
     ~TaskManager() {
         save();
         vector<TaskById> arr = allTasks.toVector();
         for(TaskById &t : arr) delete t.task;
     };
-    // Tạo Task mới, thêm vào Scheduler và SearchEngine, record vào History
+
     void addTask(long long id, int p, string title, string deadline, bool record) {
         Task* tmp = new Task(id, p, title, deadline);
         TaskById I(tmp);
@@ -54,7 +55,6 @@ public:
         if(record) history.record(op);
     };
 
-    // Đánh dấu task là DONE, cập nhật trong SearchEngine, record vào History
     void completeTask(long long id, bool record) {
         TaskById* tmp = search.findById(id);
         if(!tmp || !tmp->task) return;
@@ -64,37 +64,39 @@ public:
         if(record) history.record(update);
     };
 
-    // Xóa task khỏi Scheduler và SearchEngine, record vào History
     void deleteTask(long long id, bool record) {
         TaskById* tmp = search.findById(id);
         if(!tmp) return;
 
-        TaskByPriority taskToDelete(tmp->task);
-        Operation del("DELETE", *tmp->task);
+        Task* taskPtr = tmp->task;
+        TaskByPriority taskToDelete(taskPtr);
+        Operation del("DELETE", *taskPtr);
 
         allTasks.remove(*tmp);
         search.remove(id);
         scheduler.deleteTask(taskToDelete);
         if(record) history.record(del);
-        delete tmp->task;
+        delete taskPtr;
     };
 
-    // Gọi Scheduler.getNext() để lấy task ưu tiên cao nhất hiện tại
     Task* getNextTask() {
         TaskByPriority* tmp = scheduler.getNext();
         if(!tmp || !tmp->task) return nullptr;
         return tmp->task;
     };
-    // Gọi SearchEngine.findById()
+
     Task* searchById(long long id) {
         TaskById* tmp = search.findById(id);
         if(!tmp || !tmp->task) return nullptr;
         return tmp->task;
     };
     
-    // Task* searchByTitle(string title){   
-    // }
-    // Lấy toàn bộ task, dùng Algorithms để sort theo priority rồi in ra
+     Task* searchByTitle(string title){   
+        TaskByTitle* tmp = search.findByTitle(title);
+        if(!tmp || !tmp->task) return nullptr;
+        return tmp->task;
+    }
+
     void listAll() {
         vector<TaskById> allTasksArr = allTasks.toVector();
         vector<TaskByPriority> tasksByPriority;
@@ -146,8 +148,6 @@ public:
 
         }
         history.pop();
-
-        // here 
     };
     void save() {
         fileManager.save(allTasks, file);

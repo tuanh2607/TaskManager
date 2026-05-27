@@ -41,4 +41,18 @@ struct TaskByPriority {
         return task->id == other.task->id;
     }
 };
+struct TaskByTitle {
+    Task* task;
+    TaskByTitle() : task(nullptr) {}
+    TaskByTitle(Task* t) : task(t) {}
+    bool operator<(const TaskByTitle &other) const {
+        return task->title < other.task->title;
+    }
+    bool operator>(const TaskByTitle &other) const {
+        return task->title > other.task->title;
+    }
+    bool operator==(const TaskByTitle &other) const {
+        return task->title == other.task->title;
+    }
+};
 #endif
