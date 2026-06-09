@@ -15,6 +15,8 @@
 #include <string>
 #include <cctype>
 using namespace std;
+using namespace sys;
+using namespace tks;
 class TaskManager {
 private:
     long long nextId;
@@ -29,11 +31,11 @@ public:
         file = filename;
         vector<Task> arr = fileManager.load(file);
         for(int i = 0; i < arr.size(); i++) {
-            Task* t = new Task(arr[i]);
-            TaskByPriority P(t);
-            TaskById I(t);
+            Task* task = new Task(arr[i]);
+            TaskIdPriority P(task); 
+            TaskById I(task);
             allTasks.insert(I);
-            scheduler.addUrgent(P);
+            scheduler.addTask(P);
             search.addTask(I);
         }
     };
@@ -41,17 +43,17 @@ public:
     ~TaskManager() {
         save();
         vector<TaskById> arr = allTasks.toVector();
-        for(TaskById &t : arr) delete t.task;
+        for(TaskById &tmp : arr) delete tmp.task;
     };
 
     void addTask(long long id, int p, string title, string deadline, bool record) {
         Task* tmp = new Task(id, p, title, deadline);
         TaskById I(tmp);
-        TaskByPriority P(tmp);
+        TaskIdPriority P(tmp);
         Operation op("ADD", *tmp);
         allTasks.insert(I);
         search.addTask(I);
-        scheduler.addUrgent(P);
+        scheduler.addTask(P);
         if(record) history.record(op);
     };
 
@@ -69,7 +71,7 @@ public:
         if(!tmp) return;
 
         Task* taskPtr = tmp->task;
-        TaskByPriority taskToDelete(taskPtr);
+        TaskIdPriority taskToDelete(taskPtr);
         Operation del("DELETE", *taskPtr);
 
         allTasks.remove(*tmp);
@@ -80,7 +82,7 @@ public:
     };
 
     Task* getNextTask() {
-        TaskByPriority* tmp = scheduler.getNext();
+        TaskIdPriority* tmp = scheduler.getNext();
         if(!tmp || !tmp->task) return nullptr;
         return tmp->task;
     };
@@ -98,30 +100,42 @@ public:
     }
 
     void listAll() {
+        string choice;
         vector<TaskById> allTasksArr = allTasks.toVector();
-        vector<TaskByPriority> tasksByPriority;
+        cout << "[?] Sort by [1] Deadline or [2] Priority : ";
+        getline(cin, choice);
 
-        for(TaskById &t : allTasksArr) tasksByPriority.push_back(TaskByPriority(t.task));
-        quickSort(tasksByPriority, 0, tasksByPriority.size() - 1);
-        
         vector<Task> taskList;
-        for(TaskByPriority &t : tasksByPriority) taskList.push_back(*t.task);
+
+        if(choice == "1") {
+            quickSort(allTasksArr, 0, allTasksArr.size() - 1);
+            for(TaskById &tmp : allTasksArr) taskList.push_back(*tmp.task);
+        } else if(choice == "2") {
+            vector<TaskByPriority> tasksByPriority;
+            for(TaskById &tmp : allTasksArr) tasksByPriority.push_back(TaskByPriority(tmp.task));
+            quickSort(tasksByPriority, 0, tasksByPriority.size() - 1, greater<TaskByPriority>{});
+            for(TaskByPriority &tmp : tasksByPriority) taskList.push_back(*tmp.task);
+        } else {
+            cout << "[!] Invalid choice\n";
+            pause();
+            return;
+        }
 
         vector<vector<Task>> pages = builtPage(taskList);
         while(true) {
+            clearScreen();
             printValidPage(pages.size());
             string input;
-            cout << "[!] Enter page number to view or any non-digit to exit : ";
-            getline(cin, input);    
-            if(!isAllDigits(input)) break;    
+            cout << "[?] Enter page number to view or any non-digit to exit : ";
+            getline(cin, input);
+            if(!isAllDigits(input) || input.empty()) break;
             int pageNum = stoi(input);
             if(pageNum <= 0 || pageNum > pages.size()) {
                 clearScreen();
                 break;
-            }    
+            }
             printPage(pageNum, pages);
-            pauseScreen();
-            clearScreen();
+            pause();
         }
         clearScreen();
     }
@@ -131,26 +145,34 @@ public:
             cout << "[!] No operations to undo\n";
             return;
         }
-        Operation* op = history.lastOperation();
-        if(!op) return;
-        if(op->type == "ADD") {
-            deleteTask(op->task.id, false);
+        Operation* operation = history.lastOperation();
+        if(!operation) return;
+        if(operation->type == "ADD") {
+            deleteTask(operation->task.id, false);
             cout << "[!] Undo add task successful\n";
-        } else if(op->type == "DELETE") {
-            addTask(op->task.id, op->task.priority, op->task.title, op->task.deadline, false);
+        } else if(operation->type == "DELETE") {
+            addTask(operation->task.id, operation->task.priority, operation->task.title, operation->task.deadline, false);
             cout << "[!] Undo delete task successful\n";
-        } else if(op->type == "COMPLETE") {
-            TaskById* tmp = search.findById(op->task.id);
+        } else if(operation->type == "COMPLETE") {
+            TaskById* tmp = search.findById(operation->task.id);
             if(tmp && tmp->task) {
                 tmp->task->status = "TODO";
                 cout << "[!] Undo complete task successful\n";
             }
-
+        } else if(operation->type == "EDIT") {
+            editTask(&operation->task, operation->task.id, operation->task.priority, operation->task.title, operation->task.deadline, false);
+            cout << "[!] Undo edit task successful\n";
         }
         history.pop();
-    };
+    }
+    void editTask(Task* oldTask, long long newId, int newPriority, string newTitle, string newDeadline, bool record) {
+        Operation op("EDIT", *oldTask);
+        deleteTask(oldTask->id, false);
+        addTask(newId, newPriority, newTitle, newDeadline, false);
+        if(record) history.record(op);
+    }
     void save() {
         fileManager.save(allTasks, file);
-    };
+    }
 };
 #endif

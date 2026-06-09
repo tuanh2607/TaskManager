@@ -1,6 +1,5 @@
 # TaskManager
-
-This project integrates data structures and algorithms into an application that visualizes how they work.
+This project integrates data structures and algorithms into an application that manager your task.
 ## Setting
 
 ```bash

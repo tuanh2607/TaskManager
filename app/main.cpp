@@ -3,12 +3,13 @@
 #include "../src/TaskManager.hpp"
 #include "string"
 using namespace std;
-
+using namespace sys;
 int main(int argc, char **argv) {
-    string dataFile = argv[1];
+    string dataFile = (argc > 1) ? argv[1] : "data.txt";
     TaskManager program(dataFile);
-    UI sys;
-    sys.runLoop(program);
+    UI prog;
+    clearScreen();
+    prog.runLoop(program);
     program.save();
     return 0;
 }

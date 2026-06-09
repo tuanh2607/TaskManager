@@ -25,9 +25,5 @@ public:
     TaskByTitle* findByTitle(string title) {
         return titleTable.find(title);
     }
-    void clear() {
-        table.clear();
-        titleTable.clear();
-    }
 };
 #endif

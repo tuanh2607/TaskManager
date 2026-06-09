@@ -5,14 +5,15 @@
 #include <vector>
 #include <fstream>
 using namespace std;
+using namespace dpt;
 class FileManager {
 public:
     void save(AVL<TaskById>& tasks, const string& filename) {
         ofstream f(filename);
         vector<TaskById> arr = tasks.toVector();
         f << "id,priority,title,status,deadline\n";
-        for(TaskById &t : arr) {
-            Task ts = *t.task;
+        for(TaskById &tmp : arr) {
+            Task ts = *tmp.task;
             f << ts.id << ',' << ts.priority << ',' << ts.title << ',' << ts.status << ',' << ts.deadline << endl;
         }
     };
