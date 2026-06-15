@@ -10,15 +10,14 @@ private:
         Node(T val) : data(val), l(nullptr), r(nullptr) {}
     };
     Node* root;
-public:
-    BST() : root(nullptr) {}
-    void insert(T val) {
+
+    void insert(Node* node, T val) {
         Node* tmp = new Node(val);
-        if(!root) {
-            root = tmp;
+        if(!node) {
+            node = tmp;
             return;
         }
-        Node *p = root;
+        Node *p = node;
         while(true) {
             if(p->data < val) {
                 if(!p->r) {
@@ -35,7 +34,8 @@ public:
             }
         }
     }
-    static Node* remove(Node* node, T val) {
+
+    Node* remove(Node* node, T val) {
         if(!node) return nullptr;
         if(node->data > val) {
             node->l = remove(node->l, val);
@@ -63,8 +63,33 @@ public:
         }
         return node;
     }
+
+    void NLR(Node* node) {
+        if(!node) return;
+        cout << node->data << " ";
+        NLR(node->l);
+        NLR(node->r);
+    } 
+    void LNR(Node* node) {
+        if(!node) return;
+        LNR(node->l);
+        cout << node->data << " ";
+        LNR(node->r);
+    }
+    void LRN(Node* node) {
+        if(!node) return;
+        LRN(node->l);
+        LRN(node->r);
+        cout << node->data << " ";
+    }
+public:
+    BST() : root(nullptr) {}
     void remove(T val) {
         root = remove(root, val);
+        return;
+    }
+    void insert(T val) {
+        insert(root, val);
         return;
     }
     bool search(T val) {
@@ -77,29 +102,11 @@ public:
         }
         return false; 
     }
-    static void NLR(Node* node) {
-        if(!node) return;
-        cout << node->data << " ";
-        NLR(node->l);
-        NLR(node->r);
-    } 
     void NLR() {
         NLR(root);
     }
-    static void LNR(Node* node) {
-        if(!node) return;
-        LNR(node->l);
-        cout << node->data << " ";
-        LNR(node->r);
-    }
     void LNR() {
         LNR(root);
-    }
-    static void LRN(Node* node) {
-        if(!node) return;
-        LRN(node->l);
-        LRN(node->r);
-        cout << node->data << " ";
     }
     void LRN() {
         LRN(root);

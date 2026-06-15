@@ -52,14 +52,31 @@ namespace tks {
     bool isLeapYear(int year) {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
+    int dayInMonth(int month, int year) {
+        int days[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+        if (month == 2 && isLeapYear(year)) return 29;
+        return days[month - 1];
+    }
+    long long UTC_VN(string date) {
+        int hour = stoi(date.substr(0, 2));
+        int minute = stoi(date.substr(3, 2));
+        int day = stoi(date.substr(6, 2));
+        int month = stoi(date.substr(9, 2));
+        int year = stoi(date.substr(12, 4));
+
+        long long days = 0;
+        for (int y = 1970; y < year; y++) days += isLeapYear(y) ? 366 : 365;
+        for (int m = 1; m < month; m++) days += dayInMonth(m, year);
+        days += day - 1;
+        long long res = days * 24 * 3600 + hour * 3600 + minute * 60 - 7 * 3600;
+        return res;
+    }
     bool isValidDate(int hour, int minutes, int day, int month, int year) {
         if (year < 1) return false;
         if (month < 1 || month > 12) return false;
         if (hour < 0 || hour > 23) return false;
         if (minutes < 0 || minutes > 59) return false;
-        int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        if (isLeapYear(year)) daysInMonth[1] = 29;
-        if (day < 1 || day > daysInMonth[month - 1]) return false;
+        if (day < 1 || day > dayInMonth(month, year)) return false;
         return true;
     }
     bool checkDay(string date) {
@@ -106,6 +123,19 @@ namespace dpt {
         cout << "║ " << left <<  setw(15) << "Priority" << setw(42) << "Title" << setw(15) << "Status" << setw(15) << "Deadline" << "  ║" << endl;
         cout << "╠" << line << "╣" << endl;
         cout << "║ " << left <<  setw(15) << task.priority << setw(42) << task.title << setw(15) << task.status << setw(15) << tks::convertDate(task.deadline) << " ║" << endl;
+        cout << "╚" << line << "╝" << endl;
+    }
+    void printTasksByQueue(Queue<Task> &q, int limit) {
+        string line = repeatStr("═", 90);
+        cout << "╔" << line << "╗" << endl;
+        cout << "║ " << left <<  setw(15) << "Priority" << setw(42) << "Title" << setw(15) << "Status" << setw(15) << "Deadline" << "  ║" << endl;
+        cout << "╠" << line << "╣" << endl;
+        while(!q.empty() && limit > 0) {
+            Task* task = q.front();
+            cout << "║ " << left <<  setw(15) << task->priority << setw(42) << task->title << setw(15) << task->status << setw(15) << tks::convertDate(task->deadline) << " ║" << endl;
+            q.dequeue();
+            limit--;
+        }
         cout << "╚" << line << "╝" << endl;
     }
     Task parseTask(string s, Task &task){

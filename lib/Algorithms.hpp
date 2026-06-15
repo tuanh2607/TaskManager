@@ -69,7 +69,7 @@ void heapSort(vector<T> &a, int n, comp cmp = comp{}){
 }
 
 template<typename T, typename comp = less<T>>
-int partition(vector<T> &a, int l, int r, comp cmp = comp{}) {
+int partition(vector<T> &a, int l, int r, comp cmp = comp{}) { // Phan hoach Hoare
     T pivot = a[l];
     int i = l - 1;
     int j = r + 1;

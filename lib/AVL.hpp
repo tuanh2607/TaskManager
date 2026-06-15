@@ -13,10 +13,10 @@ private:
         Node(T val) : data(val), l(nullptr), r(nullptr), h(1) {}
     };
     Node* root;
-    int height (Node* root) {
+    int height (Node* root) { // Xu ly duoc chieu cao cay khi cay null
         return root ? root->h : 0;
     }
-    void UpdateHeight (Node* root) {
+    void UpdateHeight (Node* root) { // Ham cap nhat chieu cao cay
         root->h = 1 + Max(height(root->l), height(root->r));
     }
     Node* RotateLeft(Node* root) {
@@ -132,8 +132,8 @@ private:
     void toVector(Node* root, vector<T> &a) {
         if(!root) return;
         toVector(root->l, a);
-        toVector(root->r, a);
         a.push_back(root->data);
+        toVector(root->r, a);
     }
 public:
     AVL() : root(nullptr) {}
@@ -172,7 +172,7 @@ public:
         root = nullptr;
     }
     
-    T* searchForHashMap(T val) {
+    T* searchForHashMap(T val) { // Ham search rieng cho hash map 
         if(!root) return nullptr;
         Node* tmp = root;
         while(tmp) {

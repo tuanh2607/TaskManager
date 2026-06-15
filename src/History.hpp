@@ -6,8 +6,10 @@
 using namespace std;
 struct Operation {
     string type;
-    Task task; 
-    Operation(string t, Task ts) : type(t) , task(ts) {}
+    Task oldTask; 
+    Task newTask;
+    Operation(string t, Task ot) : type(t), oldTask(ot) {}
+    Operation(string t, Task ot, Task nt) : type(t), oldTask(ot), newTask(nt) {}
 };
 
 class History {

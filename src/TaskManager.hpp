@@ -7,6 +7,7 @@
 #include "History.hpp"
 #include "functions.hpp"
 #include "FileManager.hpp"
+#include "DeadlineQueue.hpp"
 #include "../lib/AVL.hpp"
 #include "../lib/HashTable.hpp"
 #include "../lib/PriorityQueue.hpp"
@@ -148,28 +149,40 @@ public:
         Operation* operation = history.lastOperation();
         if(!operation) return;
         if(operation->type == "ADD") {
-            deleteTask(operation->task.id, false);
+            deleteTask(operation->oldTask.id, false);
             cout << "[!] Undo add task successful\n";
         } else if(operation->type == "DELETE") {
-            addTask(operation->task.id, operation->task.priority, operation->task.title, operation->task.deadline, false);
+            addTask(operation->oldTask.id, operation->oldTask.priority, operation->oldTask.title, operation->oldTask.deadline, false);
             cout << "[!] Undo delete task successful\n";
         } else if(operation->type == "COMPLETE") {
-            TaskById* tmp = search.findById(operation->task.id);
+            TaskById* tmp = search.findById(operation->oldTask.id);
             if(tmp && tmp->task) {
                 tmp->task->status = "TODO";
                 cout << "[!] Undo complete task successful\n";
             }
         } else if(operation->type == "EDIT") {
-            editTask(&operation->task, operation->task.id, operation->task.priority, operation->task.title, operation->task.deadline, false);
+            editTask(&operation->newTask, operation->oldTask.id, operation->oldTask.priority, operation->oldTask.title, operation->oldTask.deadline, false);
             cout << "[!] Undo edit task successful\n";
         }
         history.pop();
     }
     void editTask(Task* oldTask, long long newId, int newPriority, string newTitle, string newDeadline, bool record) {
-        Operation op("EDIT", *oldTask);
         deleteTask(oldTask->id, false);
         addTask(newId, newPriority, newTitle, newDeadline, false);
-        if(record) history.record(op);
+        if(record) {
+            Operation op("EDIT", *oldTask, Task(newId, newPriority, newTitle, newDeadline));
+            history.record(op);
+        }
+    }
+
+    void showOverDueTasksAndUpcomingTasks() {
+            DeadlineQueue dq;
+            vector<TaskById> allTasksArr = allTasks.toVector();
+            for(TaskById &tmp : allTasksArr) {
+                if(tmp.task->status == "TODO") dq.addTask(*tmp.task);
+            }
+            dq.showAll();
+            pause();
     }
     void save() {
         fileManager.save(allTasks, file);

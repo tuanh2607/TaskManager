@@ -16,7 +16,7 @@ public:
         queue.insertBack(val);
     }
     void dequeue() {
-        if(queue.empty()) return;
+        if(queue.size() == 0) return;
         queue.removeAt(0);
     }
     T* front() {

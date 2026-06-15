@@ -11,7 +11,7 @@ public:
     void insert(T val) {
         heap.push_back(val);
         int i = heap.size() - 1;
-        while(i > 0 && heap[(i - 1)/2] < heap[i]) {
+        while(i > 0 && heap[(i - 1)/2] < heap[i]) { // Heapify nguoc len tren cay max heap
             Swap(heap[i], heap[(i - 1)/2]);
             i = (i - 1)/2;
         }

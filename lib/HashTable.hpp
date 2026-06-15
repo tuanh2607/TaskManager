@@ -11,7 +11,7 @@ struct Pair {
     B val;
     Pair() {}
     Pair(A k, B v) : key(k), val(v) {}
-    bool operator < (const Pair &other) const {
+    bool operator < (const Pair &other) const { // Nap chong toan tu de AVL sap xep theo key
         return key < other.key;
     }
     bool operator > (const Pair &other) const {
@@ -29,7 +29,7 @@ private:
     const int bucket_size = 37;
     int _size;
     vector<AVL<Pair<A, B>>> bucket;
-    long long hashFunc(A key) {
+    long long hashFunc(A key) { // Ham hash
         stringstream ss;
         ss << key;
         string s = ss.str();
