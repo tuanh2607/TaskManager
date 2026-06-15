@@ -13,8 +13,7 @@ public:
         vector<TaskById> arr = tasks.toVector();
         f << "id,priority,title,status,deadline\n";
         for(TaskById &tmp : arr) {
-            Task ts = *tmp.task;
-            f << ts.id << ',' << ts.priority << ',' << ts.title << ',' << ts.status << ',' << ts.deadline << endl;
+            f << tmp.task->id << ',' << tmp.task->priority << ',' << tmp.task->title << ',' << tmp.task->status << ',' << tmp.task->deadline << endl;
         }
     };
     vector<Task> load(const string& filename) {

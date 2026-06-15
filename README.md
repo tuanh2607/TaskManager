@@ -54,12 +54,12 @@ make run
 
 **Linux/macOS:**
 ```bash
-./TaskManager data.txt
+./TaskManager app/data.txt
 ```
 
 **Windows:**
 ```bash
-TaskManager.exe data.txt
+TaskManager.exe app\data.txt
 ```
 
 ## Menu Options
@@ -95,7 +95,7 @@ TaskManager.exe data.txt
 
 **9. Show overdue or upcoming task**
    - View the most 20 overdue tasks or the most 20 upcoming tasks
-   
+
 **0. Exit program**
 
 

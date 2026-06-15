@@ -1,8 +1,16 @@
+ifeq ($(OS),Windows_NT)
+    RM = del /Q
+    EXE = .exe
+else
+    RM = rm -f
+    EXE =
+endif
+
 all:
-	g++ app/main.cpp -o main
+	g++ app/main.cpp -o TaskManager$(EXE)
 
 run: all
-	./main app/data.txt
+	./TaskManager$(EXE) app/data.txt
 
 clean:
-	rm -f main
+	$(RM) TaskManager$(EXE)

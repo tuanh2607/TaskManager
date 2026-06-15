@@ -10,7 +10,7 @@ struct Pair {
     A key;
     B val;
     Pair() {}
-    Pair(A k, B v) : key(k), val(v) {}
+    Pair(const A &k, const B &v) : key(k), val(v) {}
     bool operator < (const Pair &other) const { // Nap chong toan tu de AVL sap xep theo key
         return key < other.key;
     }
@@ -29,7 +29,7 @@ private:
     const int bucket_size = 37;
     int _size;
     vector<AVL<Pair<A, B>>> bucket;
-    long long hashFunc(A key) { // Ham hash
+    long long hashFunc(const A &key) { // Ham hash
         stringstream ss;
         ss << key;
         string s = ss.str();
@@ -43,28 +43,28 @@ private:
     }
 public:
     HashTable() : bucket(bucket_size), _size(0) {}
-    void insert(A key, B value) {
+    void insert(const A &key, const B &value) {
         if(!contains(key)) {
             Pair<A,B> key_val = {key, value};
             bucket[hashFunc(key)].insert(key_val);
             _size++;
         }
     }
-    void remove(A key) {
+    void remove(const A &key) {
         Pair<A, B> dummy = {key, B{}};
         if (bucket[hashFunc(key)].search(dummy)){
             bucket[hashFunc(key)].remove(dummy);
             _size--;
         } else return;
     }
-    B* find(A key) {
+    B* find(const A &key) {
         int idx = hashFunc(key);
         Pair<A, B> dummy = {key, B{}};
         Pair<A, B>* res =  bucket[idx].searchForHashMap(dummy);
         if(res) return &res->val;
         return nullptr;
     }
-    bool contains(A key) {
+    bool contains(const A &key) {
         Pair<A, B> dummy = {key, B{}};
         return bucket[hashFunc(key)].search(dummy);
     }

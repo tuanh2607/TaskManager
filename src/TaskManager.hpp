@@ -106,23 +106,23 @@ public:
         cout << "[?] Sort by [1] Deadline or [2] Priority : ";
         getline(cin, choice);
 
-        vector<Task> taskList;
+        vector<Task*> taskList;
 
         if(choice == "1") {
             quickSort(allTasksArr, 0, allTasksArr.size() - 1);
-            for(TaskById &tmp : allTasksArr) taskList.push_back(*tmp.task);
+            for(TaskById &tmp : allTasksArr) taskList.push_back(tmp.task);
         } else if(choice == "2") {
             vector<TaskByPriority> tasksByPriority;
             for(TaskById &tmp : allTasksArr) tasksByPriority.push_back(TaskByPriority(tmp.task));
             quickSort(tasksByPriority, 0, tasksByPriority.size() - 1, greater<TaskByPriority>{});
-            for(TaskByPriority &tmp : tasksByPriority) taskList.push_back(*tmp.task);
+            for(TaskByPriority &tmp : tasksByPriority) taskList.push_back(tmp.task);
         } else {
             cout << "[!] Invalid choice\n";
             pause();
             return;
         }
 
-        vector<vector<Task>> pages = builtPage(taskList);
+        vector<vector<Task*>> pages = builtPage(taskList);
         while(true) {
             clearScreen();
             printValidPage(pages.size());
@@ -157,7 +157,7 @@ public:
         } else if(operation->type == "COMPLETE") {
             TaskById* tmp = search.findById(operation->oldTask.id);
             if(tmp && tmp->task) {
-                tmp->task->status = "TODO";
+                tmp->task->status = operation->oldTask.status;
                 cout << "[!] Undo complete task successful\n";
             }
         } else if(operation->type == "EDIT") {
@@ -167,10 +167,11 @@ public:
         history.pop();
     }
     void editTask(Task* oldTask, long long newId, int newPriority, string newTitle, string newDeadline, bool record) {
+        Task savedOldTask = *oldTask; 
         deleteTask(oldTask->id, false);
         addTask(newId, newPriority, newTitle, newDeadline, false);
         if(record) {
-            Operation op("EDIT", *oldTask, Task(newId, newPriority, newTitle, newDeadline));
+            Operation op("EDIT", savedOldTask, Task(newId, newPriority, newTitle, newDeadline));
             history.record(op);
         }
     }

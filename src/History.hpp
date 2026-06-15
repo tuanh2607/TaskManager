@@ -16,7 +16,7 @@ class History {
 private: 
     Stack<Operation> s;
 public:
-    void record(Operation op) {
+    void record(const Operation& op) {
         s.push(op);
     };
     Operation* lastOperation() {

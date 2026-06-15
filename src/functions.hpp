@@ -79,7 +79,7 @@ namespace tks {
         if (day < 1 || day > dayInMonth(month, year)) return false;
         return true;
     }
-    bool checkDay(string date) {
+    bool checkDay(const string& date) {
         if (date.length() != 16) return false;
         if (date[2] != '-' || date[5] != '-' || date[8] != '-' || date[11] != '-') return false;
         string hourStr = date.substr(0, 2);
@@ -95,7 +95,7 @@ namespace tks {
         int year = stoi(yearStr);
         return isValidDate(hour, minute, day, month, year);
     }
-    string convertDate(string date) {
+    string convertDate(const string& date) {
         string hour = date.substr(0, 2);      
         string minute = date.substr(3, 2);    
         string day = date.substr(6, 2);       
@@ -117,7 +117,7 @@ namespace dpt {
             result += s;
         return result;
     }
-    void printTask(Task task) {
+    void printTask(const Task& task) {
         string line = repeatStr("═", 90);
         cout << "╔" << line << "╗" << endl;
         cout << "║ " << left <<  setw(15) << "Priority" << setw(42) << "Title" << setw(15) << "Status" << setw(15) << "Deadline" << "  ║" << endl;
@@ -169,11 +169,11 @@ namespace dpt {
             }
         } else cout << "[!] Valid pages: [1][2][3]...[" << n << "]\n";
     }
-    vector<vector<Task>> builtPage(vector<Task> arr){
-        vector<vector<Task>> res;
+    vector<vector<Task*>> builtPage(vector<Task*> arr){
+        vector<vector<Task*>> res;
         int i = 0;
         while(i < arr.size()) {
-            vector<Task> page;
+            vector<Task*> page;
             int cnt = 0;
             while(i < arr.size() && cnt < 20) {
                 page.push_back(arr[i]);
@@ -184,14 +184,14 @@ namespace dpt {
         }    
         return res;
     }
-    void printPage(int pagenum, vector<vector<Task>> &a) {
+    void printPage(int pagenum, vector<vector<Task*>> &a) {
         string line = repeatStr("═", 90);
         cout << "╔" << line << "╗" << endl;
         cout << "║ " << left <<  setw(15) << "Priority" << setw(42) << "Title" << setw(15) << "Status" << setw(15) << "Deadline" << "  ║" << endl;
         cout << "╠" << line << "╣" << endl;
-        vector<Task> page = a[pagenum - 1];
+        vector<Task*> page = a[pagenum - 1];
         for(int i = 0; i < page.size(); i++) {
-            cout << "║ " << left <<  setw(15) << page[i].priority << setw(42) << page[i].title << setw(15) << page[i].status << setw(15) << tks::convertDate(page[i].deadline) << " ║" << endl;
+            cout << "║ " << left <<  setw(15) << page[i]->priority << setw(42) << page[i]->title << setw(15) << page[i]->status << setw(15) << tks::convertDate(page[i]->deadline) << " ║" << endl;
         }
         cout << "╚" << line << "╝" << endl;
     }
