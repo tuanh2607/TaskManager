@@ -62,8 +62,9 @@ public:
         TaskById* tmp = search.findById(id);
         if(!tmp || !tmp->task) return;
 
-        tmp->task->status = "DONE";
+        if(tmp->task->status == "DONE") return;
         Operation update("COMPLETE", *tmp->task);
+        tmp->task->status = "DONE";
         if(record) history.record(update);
     };
 
@@ -146,25 +147,31 @@ public:
             cout << "[!] No operations to undo\n";
             return;
         }
-        Operation* operation = history.lastOperation();
-        if(!operation) return;
-        if(operation->type == "ADD") {
-            deleteTask(operation->oldTask.id, false);
-            cout << "[!] Undo add task successful\n";
-        } else if(operation->type == "DELETE") {
-            addTask(operation->oldTask.id, operation->oldTask.priority, operation->oldTask.title, operation->oldTask.deadline, false);
-            cout << "[!] Undo delete task successful\n";
-        } else if(operation->type == "COMPLETE") {
-            TaskById* tmp = search.findById(operation->oldTask.id);
-            if(tmp && tmp->task) {
-                tmp->task->status = operation->oldTask.status;
-                cout << "[!] Undo complete task successful\n";
+        string choice;
+        history.printHistory();
+        cout << "[?] Undo first operation? [y/n] : ";
+        getline(cin, choice);
+        if(choice == "y" || choice == "Y"){
+            Operation* operation = history.lastOperation();
+            if(!operation) return;
+            if(operation->type == "ADD") {
+                deleteTask(operation->oldTask.id, false);
+                cout << "[!] Undo add task successful\n";
+            } else if(operation->type == "DELETE") {
+                addTask(operation->oldTask.id, operation->oldTask.priority, operation->oldTask.title, operation->oldTask.deadline, false);
+                cout << "[!] Undo delete task successful\n";
+            } else if(operation->type == "COMPLETE") {
+                TaskById* tmp = search.findById(operation->oldTask.id);
+                if(tmp && tmp->task) {
+                    tmp->task->status = operation->oldTask.status;
+                    cout << "[!] Undo complete task successful\n";
+                }
+            } else if(operation->type == "EDIT") {
+                editTask(&operation->newTask, operation->oldTask.id, operation->oldTask.priority, operation->oldTask.title, operation->oldTask.deadline, false);
+                cout << "[!] Undo edit task successful\n";
             }
-        } else if(operation->type == "EDIT") {
-            editTask(&operation->newTask, operation->oldTask.id, operation->oldTask.priority, operation->oldTask.title, operation->oldTask.deadline, false);
-            cout << "[!] Undo edit task successful\n";
-        }
-        history.pop();
+            history.pop();
+        } else cout << "[!] Undo cancelled\n";
     }
     void editTask(Task* oldTask, long long newId, int newPriority, string newTitle, string newDeadline, bool record) {
         Task savedOldTask = *oldTask; 

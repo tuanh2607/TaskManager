@@ -1,6 +1,7 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 #include "LinkedList.hpp"
+#include <vector>
 template<typename T>
 class Stack {
 private:
@@ -21,6 +22,9 @@ public:
     }
     int size() {
         return stack.size();
+    }
+    vector<T> toVector() {
+        return stack.toVector();
     }
 };
 #endif

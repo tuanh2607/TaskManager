@@ -15,7 +15,7 @@ private:
     Queue<Task> tasksOverdue;
     Queue<Task> tasksUpcoming;
 public:
-    void addTask(Task task) {
+    void addTask(Task &task) {
         if(isOverdue(task.deadline)) tasksOverdue.enqueue(task);
         else tasksUpcoming.enqueue(task);
     }

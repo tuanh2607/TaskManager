@@ -1,5 +1,6 @@
 #ifndef LINKEDLIST_HPP
 #define LINKEDLIST_HPP
+#include <vector>
 using namespace std;
 template<typename T>
 class LinkedList {
@@ -106,6 +107,15 @@ public:
     }
     Node* getHead() {
         return head;
+    }
+    vector<T> toVector() {
+        vector<T> res;
+        Node* tmp = head;
+        while(tmp) {
+            res.push_back(tmp->data);
+            tmp = tmp->next;
+        }
+        return res;
     }
 };
 #endif

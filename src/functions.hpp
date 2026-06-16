@@ -41,10 +41,10 @@ namespace tks {
         return true;
     }
     long long getID(string s) {
-        string hh   = s.substr(0, 2);
-        string mm   = s.substr(3, 2);
-        string dd   = s.substr(6, 2);
-        string mon  = s.substr(9, 2);
+        string hh = s.substr(0, 2);
+        string mm = s.substr(3, 2);
+        string dd = s.substr(6, 2);
+        string mon = s.substr(9, 2);
         string yyyy = s.substr(12, 4);
         string result = yyyy + mon + dd + hh + mm;
         return stoll(result);

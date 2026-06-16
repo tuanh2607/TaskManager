@@ -9,7 +9,7 @@ private:
     HashTable<long long, TaskById> table;
     HashTable<string, TaskByTitle> titleTable;
 public:
-    void addTask(TaskById t) {
+    void addTask(TaskById &t) {
         TaskByTitle T(t.task);
         table.insert(t.task->id, t);
         titleTable.insert(t.task->title, T);

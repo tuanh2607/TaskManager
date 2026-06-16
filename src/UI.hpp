@@ -162,7 +162,7 @@ private:
         cout << "║ [4] Delete task           [9] Show overdue/upcoming tasks   ║\n";
         cout << "║ [5] Search                [0] Exit                          ║\n";
         cout << "╚═════════════════════════════════════════════════════════════╝\n";
-        cout << "\033[36m[?] Choose an option : \033[0m";
+        cout << " [?] Choose an option : ";
     }
     void runLoop(TaskManager &tm) {
         string choice;
