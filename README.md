@@ -4,13 +4,13 @@ An application that integrates data structures and algorithms to help you manage
 
 ## Features
 
-- ✅ **Add, edit, delete tasks** - Manage your daily tasks
-- ✅ **Priority levels** - 3 priority levels (1-3)
-- ✅ **Deadline tracking** - Set deadlines with date/time validation
-- ✅ **Overdue detection** - Automatic categorization of overdue/upcoming tasks
-- ✅ **Search functionality** - Find tasks by title or deadline
-- ✅ **Task history** - Track completed tasks
-- ✅ **Pagination** - Browse tasks efficiently
+- **Add, edit, delete tasks** - Manage your daily tasks
+- **Priority levels** - 3 priority levels (1-3)
+- **Deadline tracking** - Set deadlines with date/time validation
+- **Overdue detection** - Automatic categorization of overdue/upcoming tasks
+- **Search functionality** - Find tasks by title or deadline
+- **Task history** - Track completed tasks
+- **Pagination** - Browse tasks efficiently
 
 ## Data Structures Used
 
@@ -19,12 +19,6 @@ An application that integrates data structures and algorithms to help you manage
 - **Priority Queue** - For task scheduling
 - **Stack** - For undo your actions
 - **Queue** - For deadline management 
-
-## Requirements
-
-- C++11 or higher
-- GCC/G++ compiler
-- Linux, macOS, or Windows
 
 ## Installation
 

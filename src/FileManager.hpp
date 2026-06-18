@@ -11,9 +11,9 @@ public:
     void save(AVL<TaskById>& tasks, const string& filename) {
         ofstream f(filename);
         vector<TaskById> arr = tasks.toVector();
-        f << "id,priority,title,status,deadline\n";
+        f << "id|priority|title|status|deadline\n";
         for(TaskById &tmp : arr) {
-            f << tmp.task->id << ',' << tmp.task->priority << ',' << tmp.task->title << ',' << tmp.task->status << ',' << tmp.task->deadline << endl;
+            f << tmp.task->id << '|' << tmp.task->priority << '|' << tmp.task->title << '|' << tmp.task->status << '|' << tmp.task->deadline << endl;
         }
     };
     vector<Task> load(const string& filename) {

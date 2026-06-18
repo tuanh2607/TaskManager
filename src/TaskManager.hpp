@@ -159,6 +159,10 @@ public:
                 cout << "[!] Undo add task successful\n";
             } else if(operation->type == "DELETE") {
                 addTask(operation->oldTask.id, operation->oldTask.priority, operation->oldTask.title, operation->oldTask.deadline, false);
+                TaskById* tmp = search.findById(operation->oldTask.id);
+                if(tmp && tmp->task) {
+                    tmp->task->status = operation->oldTask.status;
+                }
                 cout << "[!] Undo delete task successful\n";
             } else if(operation->type == "COMPLETE") {
                 TaskById* tmp = search.findById(operation->oldTask.id);
@@ -168,6 +172,10 @@ public:
                 }
             } else if(operation->type == "EDIT") {
                 editTask(&operation->newTask, operation->oldTask.id, operation->oldTask.priority, operation->oldTask.title, operation->oldTask.deadline, false);
+                TaskById* tmp = search.findById(operation->oldTask.id);
+                if(tmp && tmp->task) {
+                    tmp->task->status = operation->oldTask.status;
+                }
                 cout << "[!] Undo edit task successful\n";
             }
             history.pop();

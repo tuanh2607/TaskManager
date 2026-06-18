@@ -16,6 +16,7 @@ public:
     }
     void remove(long long id) {
         TaskById* taskToRemove = table.find(id);
+        if(!taskToRemove) return;
         titleTable.remove(taskToRemove->task->title);
         table.remove(id);
     }

@@ -143,7 +143,7 @@ namespace dpt {
         string cur = "";
 
         for (char c : s) {
-            if (c == ',') {
+            if (c == '|') {
                 v.push_back(cur);
                 cur = "";
             } else cur += c;
@@ -156,7 +156,12 @@ namespace dpt {
         task.deadline = v[4];
         return task;
     }
-
+    bool stringFind(string &str) {
+        for(char c : str) {
+            if(c == '|') return true;
+        }
+        return false;
+    }
     void printValidPage(int n) {
         if(n == 0) {
             cout << "[!] No tasks to display\n";

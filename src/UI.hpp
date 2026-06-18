@@ -26,6 +26,8 @@ private:
             getline(cin, title);
             if(title.length() < 1 || title.length() > 25)
                 cout << "[!] Title must be between 1 and 25 characters\n";
+            else if(stringFind(title))
+                cout << "[!] Title cannot contain pipe characters (|)\n";
             else if(checkDuplicate && tm.searchByTitle(title))
                 cout << "[!] Task with this title already exists\n";
             else return title;
